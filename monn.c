@@ -34,7 +34,9 @@ void execute_instruction(char **tokens, unsigned int line_number)
     instruction_t instructions[] = {
         {"push", push},
         {"pall", pall},
-        {NULL, NULL}
+	{"pop", pop},
+	{"pint", pint},
+	{NULL, NULL}
     };
 
     int i = 0;
