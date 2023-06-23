@@ -62,7 +62,7 @@ void execute_instruction(char **tokens, unsigned int line_number)
 
 void push(stack_t **stack, unsigned int line_number)
 {
-	char *tokens[1];
+	char *tokens[2] = {NULL};
 	stack_t *new_node;
 
 	if (!stack)
