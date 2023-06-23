@@ -37,6 +37,10 @@ void execute_instruction(char **tokens, unsigned int line_number)
 		{"pall", pall},
 		{"pop", pop},
 		{"pint", pint},
+		{"swap", swap},
+		{"add", add},
+		{"sub", sub},
+		{"div", divi},
 		{NULL, NULL}
 	};
 	int i = 0;
