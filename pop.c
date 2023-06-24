@@ -1,4 +1,6 @@
+#include <ctype.h>
 #include "monty.h"
+
 /**
  * pint - print last node
  * @stack: linked list
@@ -37,4 +39,25 @@ void pop(stack_t **stack, unsigned int line_number)
 	free(current);
 }
 
+/**
+ * is_number - check if a string is a valid integer
+ * @str: input string
+ * Return: 1 if valid integer, 0 otherwise
+ */
+int is_number(char *str)
+{
+	int j = 0;
 
+	while (str[j])
+	{
+		if (j == 0 && str[j] == '-' && str[j + 1])
+		{
+			j++;
+			continue;
+		}
+		if (str[j] < '0' || str[j] > '9')
+			return(0);
+		j++;
+	}
+	return (1);
+}

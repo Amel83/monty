@@ -1,7 +1,7 @@
 #ifndef MONTY_H
 #define MONTY_H
-
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 
 /**
@@ -34,6 +34,20 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
+typedef struct arg_s
+{
+	FILE *file;
+	char **tokens;
+	char *line;
+	int i;
+	stack_t *head;
+	int stack_length;
+	instruction_t *instruction;
+	unsigned int line_number;
+} arg_t;
+
+arg_t *arguments;
+
 void push(stack_t **stack, unsigned int line_number);
 void pall(stack_t **stack, unsigned int line_number);
 void pop(stack_t **stack, unsigned int line_number);
@@ -42,5 +56,17 @@ void swap(stack_t **stack, unsigned int line_number);
 void add(stack_t **stack, unsigned int line_number);
 void sub(stack_t **stack, unsigned int line_number);
 void divi(stack_t **stack, unsigned int line_number);
+int is_number(char *str);
+void free_token(void);
+void close_stream(void);
+void malloc_failed(void);
+void execute_instruction();
+void tokenize();
+void initializes();
+void run_instruction(void);
+void free_all(void);
+void free_argument();
+void free_stack(stack_t *head);
+void free_head(void);
 
 #endif
