@@ -7,17 +7,24 @@
  */
 void swap(stack_t **stack, unsigned int line_number)
 {
-	int current;
-
-	if (!*stack || !(*stack)->next)
+	stack_t *temp, *current;
+	(void) stack;
+	
+	if (vars->len < 2)
 	{
-		fprintf(stderr, "L%u: can't swap, stack too short\n",
-			line_number);
+		fprintf(stderr, "L%u: can't swap, stack too short\n", line_number);
+		free_all();
 		exit(EXIT_FAILURE);
 	}
-	current = (*stack)->n;
-	(*stack)->n = (*stack)->next->n;
-	(*stack)->next->n = current;
+	temp = vars->h;
+	current = temp->next;
+	temp->next = current->next;
+	if (temp->next)
+		temp->next->prev = temp;
+	current->next = temp;
+	temp->prev = current;
+	current->prev = NULL;
+	vars->h = current;
 }
 
 /**
@@ -27,13 +34,22 @@ void swap(stack_t **stack, unsigned int line_number)
  */
 void add(stack_t **stack, unsigned int line_number)
 {
-	if (!*stack || !(*stack)->next)
+	stack_t *temp, *current;
+	(void) stack;
+	
+	if (vars->len < 2)
 	{
 		fprintf(stderr, "L%u: can't add, stack too short\n", line_number);
+		free_all();
 		exit(EXIT_FAILURE);
 	}
-	(*stack)->next->n = (*stack)->next->n + (*stack)->n;
-	pop(stack, line_number);
+	temp = vars->h;
+	current = temp->next;
+	current->n = temp->n + current->n;
+	temp = vars->h;
+	vars->h = temp->next;
+	free(temp);
+	vars->len -= 1;
 }
 
 /**
@@ -43,13 +59,22 @@ void add(stack_t **stack, unsigned int line_number)
  */
 void sub(stack_t **stack, unsigned int line_number)
 {
-	if (!*stack || !(*stack)->next)
+	stack_t *temp, *current;
+	(void) stack;
+
+	if (vars->len < 2)
 	{
 		fprintf(stderr, "L%u: can't sub, stack too short\n", line_number);
+		free_all();
 		exit(EXIT_FAILURE);
 	}
-	(*stack)->next->n = (*stack)->next->n - (*stack)->n;
-	pop(stack, line_number);
+        temp = vars->h;
+        current = temp->next;
+        current->n = temp->n - current->n;
+        temp = vars->h;
+        vars->h = temp->next;
+        free(temp);
+        vars->len -= 1;	
 }
 
 /**
@@ -59,9 +84,13 @@ void sub(stack_t **stack, unsigned int line_number)
  */
 void divi(stack_t **stack, unsigned int line_number)
 {
-	if (!*stack || !(*stack)->next)
+	stack_t *temp, *current;
+	(void) stack;
+
+	if (vars->len < 2)
 	{
 		fprintf(stderr, "L%u: can't div, stack too short\n", line_number);
+		free_all();
 		exit(EXIT_FAILURE);
 	}
 	if ((*stack)->n == 0)
@@ -69,6 +98,11 @@ void divi(stack_t **stack, unsigned int line_number)
 		fprintf(stderr, "L%u: division by zero\n", line_number);
 		exit(EXIT_FAILURE);
 	}
-	(*stack)->next->n = (*stack)->next->n / (*stack)->n;
-	pop(stack, line_number);
+        temp = vars->h;
+        current = temp->next;
+        current->n = temp->n / current->n;
+        temp = vars->h;
+        vars->h = temp->next;
+        free(temp);
+        vars->len -= 1;
 }

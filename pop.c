@@ -9,12 +9,14 @@
 
 void pint(stack_t **stack, unsigned int line_number)
 {
-	if (*stack == NULL)
+	(void) stack;
+	if (vars->h == NULL)
 	{
 		fprintf(stderr, "L%d: can't pint, stack empty\n", line_number);
+		free_all();
 		exit(EXIT_FAILURE);
 	}
-	printf("%d\n", (*stack)->n);
+	printf("%d\n", vars->h->n);
 }
 /**
 * pop - delete top of list
@@ -24,19 +26,19 @@ void pint(stack_t **stack, unsigned int line_number)
 
 void pop(stack_t **stack, unsigned int line_number)
 {
-	stack_t *current = *stack;
+	stack_t *temp;
+	(void) stack;
 
-	if (*stack == NULL)
+	if (vars->h == NULL)
 	{
 		fprintf(stderr, "L%d: can't pop an empty stack\n", line_number);
+		free_all();
 		exit(EXIT_FAILURE);
 	}
-	*stack = (*stack)->next;
-	if (*stack != NULL)
-	{
-		(*stack)->prev = NULL;
-	}
-	free(current);
+	temp = vars->h;
+	vars->h = temp->next;
+	
+	free(temp);
 }
 
 /**
@@ -44,7 +46,7 @@ void pop(stack_t **stack, unsigned int line_number)
  * @str: input string
  * Return: 1 if valid integer, 0 otherwise
  */
-int is_number(char *str)
+int is_digit(char *str)
 {
 	int j = 0;
 

@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "monty.h"
-#define MAX_LINE_LENGTH 1024
 
 /**
  * tokenize - check the code
@@ -13,31 +12,31 @@
 void tokenize()
 {
 	int j = 0;
-	char *token = NULL, *linecpy = NULL, *delims = " \n";
+	char *token = NULL, *inputcpy = NULL, *delims = " \n";
 
-	linecpy = malloc(sizeof(char) * (strlen(arguments->line) + 1));
-	strcpy(linecpy, arguments->line);
-	arguments->i = 0;
-	token = strtok(linecpy, delims);
+	inputcpy = malloc(sizeof(char) * (strlen(vars->input) + 1));
+	strcpy(inputcpy, vars->input);
+	vars->i = 0;
+	token = strtok(inputcpy, delims);
 	while (token)
 	{
-		arguments->i += 1;
+		vars->i += 1;
 		token = strtok(NULL, delims);
 	}
-	arguments->tokens = malloc(sizeof(char *) *(arguments->i + 1));
-	strcpy(linecpy, arguments->line);
-	token = strtok(linecpy, delims);
+	vars->tokens = malloc(sizeof(char *) *(vars->i + 1));
+	strcpy(inputcpy, vars->input);
+	token = strtok(inputcpy, delims);
 	while (token)
 	{
-		arguments->tokens[j] = malloc(sizeof(char) *(strlen(token) + 1));
-		if (arguments->tokens[j] == NULL)
-			malloc_failed();
-		strcpy(arguments->tokens[j], token);
+		vars->tokens[j] = malloc(sizeof(char) *(strlen(token) + 1));
+		if (vars->tokens[j] == NULL)
+			malloc_fail();
+		strcpy(vars->tokens[j], token);
 		token = strtok(NULL, delims);
 		j++;
 	}
-	arguments->tokens[j] = NULL;
-	free(linecpy);
+	vars->tokens[j] = NULL;
+	free(inputcpy);
 }
 
 /**
@@ -60,21 +59,21 @@ void execute_instruction()
 		{"div", divi},
 		{NULL, NULL}
 	};
-	if (arguments->i == 0)
+	if (vars->i == 0)
 		return;
 	while (instructions[j].opcode != NULL)
 	{
-		if (strcmp(instructions[j].opcode, arguments->tokens[0]) == 0)
+		if (strcmp(instructions[j].opcode, vars->tokens[0]) == 0)
 		{
-			arguments->instruction->opcode = instructions[j].opcode;
-			arguments->instruction->f = instructions[j].f;			return;
+			vars->instruction->opcode = instructions[j].opcode;
+			vars->instruction->f = instructions[j].f;			return;
 		}
 		j++;
 	}
-	fprintf(stderr, "L%d: unknown instruction %s\n", arguments->line_number, arguments->tokens[0]);
-	fclose(arguments->file);
-	free_token();
-	free_argument();
+	fprintf(stderr, "L%d: unknown instruction %s\n", vars->line_number, vars->tokens[0]);
+	fclose(vars->file);
+	free_tokens();
+	free_arguments();
 	exit(EXIT_FAILURE);
 }
 
@@ -86,24 +85,24 @@ void execute_instruction()
 
 void push(stack_t **stack, unsigned int line_number)
 {
-	if (arguments->i <= 1 || !(is_number(arguments->tokens[1])))
+	if (vars->i <= 1 || !(is_digit(vars->tokens[1])))
 	{
-		free_argument();
+		free_arguments();
 		fprintf(stderr, "L%d: usage: push integer\n", line_number);
 		exit(EXIT_FAILURE);
 	}
 	*stack = malloc(sizeof(stack_t));
 	if (*stack == NULL)
-		malloc_failed();
+		malloc_fail();
 	(*stack)->next = (*stack)->prev = NULL;
-	(*stack)->n = (int) atoi(arguments->tokens[1]);
-	if (arguments->head != NULL)
+	(*stack)->n = (int) atoi(vars->tokens[1]);
+	if (vars->h != NULL)
 	{
-		(*stack)->next = arguments->head;
-		arguments->head->prev = *stack;
+		(*stack)->next = vars->h;
+		vars->h->prev = *stack;
 	}
-	arguments->head = *stack;
-	arguments->stack_length += 1;
+	vars->h = *stack;
+	vars->len += 1;
 }
 
 /**
@@ -118,9 +117,9 @@ void pall(stack_t **stack, unsigned int line_number)
 	(void) stack;
 	(void) line_number;
 	
-	if (arguments->head == NULL)
+	if (vars->h == NULL)
 		return;
-	temp = arguments->head;
+	temp = vars->h;
 	while (temp != NULL)
 	{
 		printf("%d\n", temp->n);
@@ -146,21 +145,21 @@ int main(int argc, char **argv)
 		exit(EXIT_FAILURE);
 	}
 	initializes();
-	arguments->file = fopen(argv[1], "r");
-	if (!arguments->file)
+	vars->file = fopen(argv[1], "r");
+	if (!vars->file)
 	{
 		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
 		exit (EXIT_FAILURE);
 	}
-	while (getline(&arguments->line, &n, arguments->file) != -1)
+	while (getline(&vars->input, &n, vars->file) != -1)
 	{
-		arguments->line_number += 1;
+		vars->line_number += 1;
 		tokenize();
 		execute_instruction();
-		run_instruction();
-		free_token();
+		run();
+		free_tokens();
 	}
-	close_stream();
-	free_argument();
+	close_file();
+	free_arguments();
 	return (0);
 }

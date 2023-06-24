@@ -3,68 +3,68 @@
 * free_stack - frees a doubly linked list
 * @head: head of the stack
 */
-void free_token(void)
+void free_tokens(void)
 {
 	int j = 0;
 
-	if (arguments->tokens == NULL)
+	if (vars->tokens == NULL)
 		return;
-	while (arguments->tokens[j])
+	while (vars->tokens[j])
 	{
-		free(arguments->tokens[j]);
+		free(vars->tokens[j]);
 		j++;
 	}
-	free(arguments->tokens);
-	arguments->tokens = NULL;
+	free(vars->tokens);
+	vars->tokens = NULL;
 }
 
-void close_stream(void)
+void close_file(void)
 {
-	if (arguments->file == NULL)
+	if (vars->file == NULL)
 		return;
-	fclose(arguments->file);
-	arguments->file = NULL;
+	fclose(vars->file);
+	vars->file = NULL;
 }
 
-void free_argument()
+void free_arguments()
 {
-	if (arguments == NULL)
+	if (vars == NULL)
 		return;
-	if (arguments->instruction)
+	if (vars->instruction)
 	{
-		free(arguments->instruction);
-		arguments->instruction = NULL;
+		free(vars->instruction);
+		vars->instruction = NULL;
 	}
-	free_head();
-	if (arguments->line)
+	free_h();
+	if (vars->input)
 	{
-		free(arguments->line);
-		arguments->line = NULL;
+		free(vars->input);
+		vars->input = NULL;
 	}
-	free(arguments);
+	free(vars);
 }
 
-void free_head(void)
+void free_h(void)
 {
-	if (arguments->head)
-		free_stack(arguments->head);
-	arguments->head = NULL;
+	if (vars->h)
+		free_stack(vars->h);
+	vars->h = NULL;
 }
 
-void free_stack(stack_t *head)
+void free_stack(stack_t *h)
 {
-	if (head == NULL)
+	if (h == NULL)
 		return;
-	if (head->next != NULL)
+	if (h->next != NULL)
 	{
-		free_stack(head->next);
+		free_stack(h->next);
 	}
-	free(head);
+	free(h);
 }
 
 void free_all(void)
 {
-	close_stream();
-	free_token();
-	free_argument();
+	close_file();
+	free_tokens();
+	free_arguments();
 }

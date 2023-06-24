@@ -2,33 +2,33 @@
 #include "monty.h"
 void initializes()
 {
-	arguments = malloc(sizeof(arg_t));
-	if(arguments == NULL)
-		malloc_failed();
-	arguments->instruction = malloc(sizeof(instruction_t));
-	if (arguments->instruction == NULL)
-		malloc_failed();
+	vars = malloc(sizeof(var_t));
+	if(vars == NULL)
+		malloc_fail();
+	vars->instruction = malloc(sizeof(instruction_t));
+	if (vars->instruction == NULL)
+		malloc_fail();
 
-	arguments->file = NULL;
-	arguments->line = NULL;
-	arguments->line_number = 1;
-	arguments->stack_length = 0;
-	arguments->head = NULL;
-	arguments->i = 0;
+	vars->file = NULL;
+	vars->input = NULL;
+	vars->line_number = 1;
+	vars->len = 0;
+	vars->h = NULL;
+	vars->i = 0;
 }
 
-void malloc_failed(void)
+void malloc_fail(void)
 {
 	fprintf(stderr, "Error: malloc failed\n");
-	free_argument();
+	free_arguments();
 	exit(EXIT_FAILURE);
 }
 
-void run_instruction(void)
+void run(void)
 {
 	stack_t *stack = NULL;
 
-	if (arguments->i == 0)
+	if (vars->i == 0)
 		return;
-	arguments->instruction->f(&stack, arguments->line_number);
+	vars->instruction->f(&stack, vars->line_number);
 }
