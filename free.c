@@ -1,8 +1,8 @@
 #include "monty.h"
 /**
-* free_stack - frees a doubly linked list
-* @head: head of the stack
+* free_tokens - frees a doubly linked list
 */
+
 void free_tokens(void)
 {
 	int j = 0;
@@ -18,15 +18,11 @@ void free_tokens(void)
 	vars->tokens = NULL;
 }
 
-void close_file(void)
-{
-	if (vars->file == NULL)
-		return;
-	fclose(vars->file);
-	vars->file = NULL;
-}
+/**
+ * free_arguments - as the name says
+ */
 
-void free_arguments()
+void free_arguments(void)
 {
 	if (vars == NULL)
 		return;
@@ -44,12 +40,21 @@ void free_arguments()
 	free(vars);
 }
 
+/**
+ * free_h - free head
+ */
+
 void free_h(void)
 {
 	if (vars->h)
 		free_stack(vars->h);
 	vars->h = NULL;
 }
+
+/**
+ * free_stack - check the code
+ * @h: linked list
+ */
 
 void free_stack(stack_t *h)
 {
@@ -61,6 +66,10 @@ void free_stack(stack_t *h)
 	}
 	free(h);
 }
+
+/**
+ * free_all - check
+ */
 
 void free_all(void)
 {

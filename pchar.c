@@ -1,4 +1,11 @@
 #include "monty.h"
+
+/**
+ * pchar - print by changing to a char
+ * @stack: struct
+ * @line_number: counter
+ */
+
 void pchar(stack_t **stack, unsigned int line_number)
 {
 	stack_t *temp = vars->h;
@@ -19,6 +26,12 @@ void pchar(stack_t **stack, unsigned int line_number)
 	printf("%c\n", temp->n);
 }
 
+/**
+ * pstr - print a string
+ * @stack: struct
+ * @line_number: counter
+ */
+
 void pstr(stack_t **stack, unsigned int line_number)
 {
 	stack_t *temp = vars->h;
@@ -34,6 +47,12 @@ void pstr(stack_t **stack, unsigned int line_number)
 	printf("\n");
 }
 
+/**
+ * rotl - check code
+ * @stack: struct
+ * @line_number: counter
+ */
+
 void rotl(stack_t **stack, unsigned int line_number)
 {
 	stack_t *temp = vars->h, *current = temp->next;
@@ -47,13 +66,19 @@ void rotl(stack_t **stack, unsigned int line_number)
 		while (current->next == NULL)
 		{
 			current->next = temp;
-			temp->next= NULL;
+			temp->next = NULL;
 			temp->prev = current;
 			break;
 		}
 		current = current->next;
 	}
 }
+
+/**
+ * rotr - check code
+ * @stack: struct
+ * @line_number: counter
+ */
 
 void rotr(stack_t **stack, unsigned int line_number)
 {

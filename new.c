@@ -1,9 +1,13 @@
 #include <stdio.h>
 #include "monty.h"
-void initializes()
+
+/**
+ * initializes - the name tells
+ */
+void initializes(void)
 {
 	vars = malloc(sizeof(var_t));
-	if(vars == NULL)
+	if (vars == NULL)
 		malloc_fail();
 	vars->instruction = malloc(sizeof(instruction_t));
 	if (vars->instruction == NULL)
@@ -18,6 +22,12 @@ void initializes()
 	vars->i = 0;
 }
 
+/**
+ * stack - to change from queu to stack
+ * @stack: struct
+ * @line_number: counter
+ */
+
 void stack(stack_t **stack, unsigned int line_number)
 {
 	(void) stack;
@@ -26,13 +36,22 @@ void stack(stack_t **stack, unsigned int line_number)
 	vars->stack = 1;
 }
 
+/**
+ * queue - to change to queue from stack
+ * @stack: struct
+ * @line_number: counter
+ */
 
 void queue(stack_t **stack, unsigned int line_number)
 {
 	(void) stack;
 	(void) line_number;
 	vars->stack = 0;
-} 
+}
+
+/**
+ * malloc_fail - error output
+ */
 
 void malloc_fail(void)
 {
@@ -40,6 +59,10 @@ void malloc_fail(void)
 	free_arguments();
 	exit(EXIT_FAILURE);
 }
+
+/**
+ * run - check code
+ */
 
 void run(void)
 {

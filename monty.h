@@ -34,6 +34,19 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
+/**
+ * struct vars - global variables
+ * @file: file
+ * @tokens:array of inputs
+ * @input: read line from file
+ * @i: int
+ * @h: head of linked list
+ * @len: int counter
+ * @stack: linked list
+ * @instruction: orders
+ * @line_number: counter
+ */
+
 typedef struct vars
 {
 	FILE *file;
@@ -70,12 +83,12 @@ int is_digit(char *str);
 void free_tokens(void);
 void close_file(void);
 void malloc_fail(void);
-void execute_instruction();
-void tokenize();
-void initializes();
+void execute_instruction(void);
+void tokenize(void);
+void initializes(void);
 void run(void);
 void free_all(void);
-void free_arguments();
+void free_arguments(void);
 void free_stack(stack_t *head);
 void free_h(void);
 

@@ -37,12 +37,11 @@ void pop(stack_t **stack, unsigned int line_number)
 	}
 	temp = vars->h;
 	vars->h = temp->next;
-	
 	free(temp);
 }
 
 /**
- * is_number - check if a string is a valid integer
+ * is_digit- check if a string is a valid integer
  * @str: input string
  * Return: 1 if valid integer, 0 otherwise
  */
@@ -58,7 +57,7 @@ int is_digit(char *str)
 			continue;
 		}
 		if (str[j] < '0' || str[j] > '9')
-			return(0);
+			return (0);
 		j++;
 	}
 	return (1);

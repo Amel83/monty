@@ -1,9 +1,16 @@
 #include "monty.h"
+
+/**
+ * mul - multiplication
+ * @stack: linked list struct
+ * @line_number: counter
+ */
+
 void mul(stack_t **stack, unsigned int line_number)
 {
 	stack_t *temp, *current;
 	(void) stack;
-	
+
 	if (vars->len < 2)
 	{
 		fprintf(stderr, "L%u: can't add, stack too short\n", line_number);
@@ -18,6 +25,12 @@ void mul(stack_t **stack, unsigned int line_number)
 	free(temp);
 	vars->len -= 1;
 }
+
+/**
+ * nop - do nothing
+ * @stack: linked list struct
+ * @line_number: counter
+ */
 void nop(stack_t **stack, unsigned int line_number)
 {
 	(void) stack;
@@ -25,7 +38,7 @@ void nop(stack_t **stack, unsigned int line_number)
 }
 
 /**
- * divi - divide the top two elements 
+ * mod - divide the top two elements
  * @stack: linked list
  * @line_number: counter
  */
@@ -46,12 +59,9 @@ void mod(stack_t **stack, unsigned int line_number)
 		free_all();
 		exit(EXIT_FAILURE);
 	}
-        
-        current->n = temp->n % current->n;
-        temp = vars->h;
-        vars->h = temp->next;
-        free(temp);
-        vars->len -= 1;
+	current->n = temp->n % current->n;
+	temp = vars->h;
+	vars->h = temp->next;
+	free(temp);
+	vars->len -= 1;
 }
-
-
