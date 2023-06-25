@@ -15,7 +15,7 @@ void initializes(void)
 
 	vars->file = NULL;
 	vars->input = NULL;
-	vars->line_number = 1;
+	vars->line_number = 0;
 	vars->len = 0;
 	vars->h = NULL;
 	vars->stack = 1;
