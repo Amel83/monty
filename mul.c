@@ -13,7 +13,7 @@ void mul(stack_t **stack, unsigned int line_number)
 
 	if (vars->len < 2)
 	{
-		fprintf(stderr, "L%u: can't add, stack too short\n", line_number);
+		fprintf(stderr, "L%u: can't mul, stack too short\n", line_number);
 		free_all();
 		exit(EXIT_FAILURE);
 	}
@@ -21,7 +21,7 @@ void mul(stack_t **stack, unsigned int line_number)
 	current = temp->next;
 	current->n = temp->n * current->n;
 	temp = vars->h;
-	vars->h = temp->next;
+	vars->h = current;
 	free(temp);
 	vars->len -= 1;
 }
