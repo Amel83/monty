@@ -59,9 +59,9 @@ void mod(stack_t **stack, unsigned int line_number)
 		free_all();
 		exit(EXIT_FAILURE);
 	}
-	current->n = temp->n % current->n;
+	current->n = current->n % temp->n;
 	temp = vars->h;
-	vars->h = temp->next;
+	vars->h = current;
 	free(temp);
 	vars->len -= 1;
 }
