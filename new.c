@@ -14,8 +14,25 @@ void initializes()
 	vars->line_number = 1;
 	vars->len = 0;
 	vars->h = NULL;
+	vars->stack = 1;
 	vars->i = 0;
 }
+
+void stack(stack_t **stack, unsigned int line_number)
+{
+	(void) stack;
+	(void) line_number;
+
+	vars->stack = 1;
+}
+
+
+void queue(stack_t **stack, unsigned int line_number)
+{
+	(void) stack;
+	(void) line_number;
+	vars->stack = 0;
+} 
 
 void malloc_fail(void)
 {

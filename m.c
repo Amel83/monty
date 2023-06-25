@@ -55,7 +55,7 @@ void execute_instruction()
 		{"pint", &pint},
 		{"swap", &swap},
 		{"add", &add},
-		{"sub", &sub}, 
+		{"sub", &sub}, {"pchar", &pchar}, 
 		{"div", &divi}, {"mod", &mod},
 		{"nop", &nop}, {"mul", &mul},
 		{NULL, NULL}
@@ -92,6 +92,7 @@ void execute_instruction()
 
 void push(stack_t **stack, unsigned int line_number)
 {
+	stack_t *temp;
 	if (vars->i <= 1 || !(is_digit(vars->tokens[1])))
 	{
 		free_arguments();
@@ -103,12 +104,25 @@ void push(stack_t **stack, unsigned int line_number)
 		malloc_fail();
 	(*stack)->next = (*stack)->prev = NULL;
 	(*stack)->n = (int) atoi(vars->tokens[1]);
-	if (vars->h != NULL)
+	if (vars->h == NULL)
+		vars->h = *stack;
+	else
 	{
-		(*stack)->next = vars->h;
-		vars->h->prev = *stack;
+		if (vars->stack)
+		{
+			(*stack)->next = vars->h;
+			vars->h->prev = *stack;
+			vars->h = *stack;
+		}
+		else
+		{
+			temp = vars->h;
+			while(temp->next)
+				temp = temp->next;
+			temp->next = *stack;
+			(*stack)->prev = temp;
+		}
 	}
-	vars->h = *stack;
 	vars->len += 1;
 }
 
