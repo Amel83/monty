@@ -46,14 +46,14 @@ void execute_instruction(void)
 {
 	int j = 0;
 	instruction_t instructions[] = {
-		{"push", &push},
+		{"push", &push}, {"mod", &mod},
 		{"pall", &pall}, {"pstr", &pstr},
 		{"pop", &pop}, {"queue", &queue},
 		{"pint", &pint}, {"rotl", &rotl},
 		{"swap", &swap}, {"rotr", &rotr},
 		{"add", &add}, {"stack", &stack},
 		{"sub", &sub}, {"pchar", &pchar},
-		{"div", &divi}, {"mod", &mod},
+		{"div", &divi},
 		{"nop", &nop}, {"mul", &mul},
 		{NULL, NULL}
 	};
