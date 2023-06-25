@@ -50,17 +50,24 @@ void execute_instruction()
 	int j = 0;
 	instruction_t instructions[] = {
 		{"push", &push},
-		{"pall", pall},
-		{"pop", pop},
-		{"pint", pint},
-		{"swap", swap},
-		{"add", add},
-		{"sub", sub},
-		{"div", divi},
+		{"pall", &pall},
+		{"pop", &pop},
+		{"pint", &pint},
+		{"swap", &swap},
+		{"add", &add},
+		{"sub", &sub}, 
+		{"div", &divi}, {"mod", &mod},
+		{"nop", &nop}, {"mul", &mul},
 		{NULL, NULL}
 	};
 	if (vars->i == 0)
 		return;
+	while (vars->tokens[0][0] == '#')
+	{
+		vars->instruction->opcode = "nop";
+		vars->instruction->f = nop;
+		return;
+	}
 	while (instructions[j].opcode != NULL)
 	{
 		if (strcmp(instructions[j].opcode, vars->tokens[0]) == 0)

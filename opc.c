@@ -84,7 +84,7 @@ void sub(stack_t **stack, unsigned int line_number)
  */
 void divi(stack_t **stack, unsigned int line_number)
 {
-	stack_t *temp, *current;
+	stack_t *temp = vars->h, *current = temp->next;
 	(void) stack;
 
 	if (vars->len < 2)
@@ -93,14 +93,13 @@ void divi(stack_t **stack, unsigned int line_number)
 		free_all();
 		exit(EXIT_FAILURE);
 	}
-	if ((*stack)->n == 0)
+	if (temp->n == 0)
 	{
 		fprintf(stderr, "L%u: division by zero\n", line_number);
+		free_all();
 		exit(EXIT_FAILURE);
 	}
-        temp = vars->h;
-        current = temp->next;
-        current->n = temp->n / current->n;
+        current->n = current->n / temp->n;
         temp = vars->h;
         vars->h = temp->next;
         free(temp);
