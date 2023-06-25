@@ -70,7 +70,7 @@ void sub(stack_t **stack, unsigned int line_number)
 	}
 	temp = vars->h;
 	current = temp->next;
-	current->n = temp->n - current->n;
+	current->n = current->n - temp->n;
 	temp = vars->h;
 	vars->h = temp->next;
 	free(temp);
